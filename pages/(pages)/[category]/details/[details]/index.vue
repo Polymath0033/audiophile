@@ -2,7 +2,26 @@
 import { useResponsive } from "~/composables/responsive";
 import AppButton from "~/components/buttons/app-button.vue";
 import { useStore } from "~/store";
-
+import { formatPrice } from "~/lib/price-formatter";
+definePageMeta({
+  middleware: [
+    function ({ params }, from) {
+      const store = useStore();
+      const details = Array.isArray(params.details)
+        ? params.details[0]
+        : params.details;
+      const product = store.getProductBySlug(details);
+      if (!product) {
+        return abortNavigation(
+          createError({
+            statusCode: 404,
+            message: `Product ${details} not found`,
+          })
+        );
+      }
+    }
+  ]
+})
 const store = useStore();
 
 const route = useRoute();
@@ -13,17 +32,8 @@ const details = Array.isArray(route.params.details)
   : route.params.details;
 const item = computed(() => store.getProductBySlug(details));
 
-if (!item.value) {
-  router.push("/404");
-  // redirect to 404
-  // this.$router.push('/404')
-}
-const formatPrice = (price: number) => {
-  return price.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-};
+
+
 const quantity = ref(1);
 const increaseQuantity = () => quantity.value++;
 const decreaseQuantity = () => {

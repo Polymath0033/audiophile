@@ -26,6 +26,9 @@ export const useStore = defineStore({
     getCart: (state) => {
       return state.cart;
     },
+    getCartLength: (state) => {
+      return state.cart.length;
+    },
   },
   actions: {
     addToCart(product: Product, quantity: number) {
@@ -41,6 +44,9 @@ export const useStore = defineStore({
       if (index !== -1) {
         this.cart.splice(index, 1);
       }
+    },
+    removeAllFromCart() {
+      this.cart = [];
     },
   },
 });
