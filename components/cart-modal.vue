@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useStore } from "~/store";
 import { formatPrice } from "~/lib/price-formatter";
-//import AppButton from "./buttons/app-button.vue";
+import AppButton from "./buttons/app-button.vue";
 defineEmits<{ (e: "close"): void }>();
 const store = useStore();
 </script>
@@ -19,7 +19,11 @@ const store = useStore();
         <h6 class="text-h6 text-black uppercase">
           CART({{ store.getCart.length }})
         </h6>
-        <button v-on:click="store.removeAllFromCart" type="button" class="underline text-body text-black opacity-50">
+        <button
+          v-on:click="store.removeAllFromCart"
+          type="button"
+          class="underline text-body text-black opacity-50"
+        >
           Remove all
         </button>
       </div>
@@ -86,21 +90,15 @@ const store = useStore();
           {{ formatPrice(store.cartTotal) }}
         </p>
       </div>
-      <AppButton value="Checkout" class="mt-8 w-full" app-type="button" />
+      <AppButton
+        v-if="store.cart.length >= 1"
+        value="Checkout"
+        class="mt-8 !w-full flex"
+        app-type="link"
+        href="/checkout"
+      />
     </dialog>
   </Teleport>
 </template>
 
-<style scoped>
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-</style>
+<style scoped></style>

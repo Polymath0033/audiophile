@@ -35,7 +35,7 @@ const emits = defineEmits<{ (e: "click"): void }>();
   <nuxt-link
     v-else
     :to="props.href"
-    class="h-12 w-40 bg-primary flex items-center justify-center py-[15px] text-[13px] !tracking-[1px] uppercase text-white font-bold hover:bg-light-primary"
+    :class="['h-12 w-40 bg-primary flex items-center justify-center py-[15px] text-[13px] !tracking-[1px] uppercase text-white font-bold hover:bg-light-primary', props.class]"
   >
     {{ props.value }}
   </nuxt-link>
